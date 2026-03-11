@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chart Signal Analyzer</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="background-effects">
+        <div class="glow glow-1"></div>
+        <div class="glow glow-2"></div>
+        <div class="glow glow-3"></div>
+    </div>
+
+    <div class="app-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+                <h2>AI Trading</h2>
+            </div>
+            
+            <div class="sidebar-sections">
+                <section class="history-section" id="historySection">
+                    <div class="section-header" id="toggleHistory">
+                        <div class="header-left">
+                            <h2><i class="fa-solid fa-history"></i> Tarix</h2>
+                            <span class="count-badge" id="historyCount">0</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div class="section-content" id="historyContent">
+                        <div class="history-list" id="historyList">
+                            <div class="empty-msg">...</div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="strategies-section" id="strategiesSection">
+                    <div class="section-header" id="toggleStrategies">
+                        <div class="header-left">
+                            <h2><i class="fa-solid fa-star"></i> Saqlangan</h2>
+                            <span class="count-badge" id="strategiesCount">0</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div class="section-content" id="strategiesContent">
+                        <div class="strategies-list" id="strategiesList">
+                            <div class="empty-msg">...</div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="usage-section">
+                    <div class="usage-card">
+                        <div class="usage-header">
+                            <i class="fa-solid fa-microchip"></i>
+                            <span>AI Tokenlar</span>
+                        </div>
+                        <div class="usage-stats">
+                            <div class="stat-item">
+                                <span class="label">Oxirgi tahlil:</span>
+                                <span class="value" id="lastUsage">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="label">Jami (Sessiya):</span>
+                                <span class="value" id="totalUsage">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="main-header">
+                <h1>Dashboard</h1>
+                <p>Chart tahlili va real-vaqt signallari</p>
+            </header>
+
+            <!-- Settings Panel moved back here -->
+
+
+            <!-- Signal Results at the top -->
+            <div class="loading-state" id="loadingState" style="display: none;">
+                <div class="scanner-container">
+                    <i class="fa-solid fa-camera scanner-icon"></i>
+                    <div class="scanner-line"></div>
+                </div>
+                <p>AI rasmni tahlil qilmoqda. Iltimos kuting...</p>
+                <div class="loading-bar">
+                    <div class="loading-progress"></div>
+                </div>
+            </div>
+
+            <div class="result-container" id="resultContainer" style="display: none;">
+                <div class="signal-header">
+                    <div class="signal-badge" id="signalBadge">BUY</div>
+                    <div class="confidence-badge">
+                        <i class="fa-solid fa-bullseye"></i> <span id="confidence">95%</span>
+                    </div>
+                </div>
+                
+                <div class="signal-details">
+                    <div class="detail-box entry">
+                        <span class="label">Entry Price</span>
+                        <span class="value" id="entryPrice">-</span>
+                        <i class="fa-solid fa-arrow-right-to-bracket bg-icon"></i>
+                    </div>
+                    <div class="detail-box tp">
+                        <span class="label">Take Profit</span>
+                        <span class="value" id="takeProfit">-</span>
+                        <i class="fa-solid fa-arrow-trend-up bg-icon"></i>
+                    </div>
+                    <div class="detail-box sl">
+                        <span class="label">Stop Loss</span>
+                        <span class="value" id="stopLoss">-</span>
+                        <i class="fa-solid fa-shield-halved bg-icon"></i>
+                    </div>
+                </div>
+
+                <div class="analysis-card">
+                    <div class="analysis-header">
+                        <h3><i class="fa-solid fa-chart-line"></i> Texnik Tahlil</h3>
+                    </div>
+                    <div class="analysis-body" id="analysisContent">
+                        Tahlil natijalari bu yerda chiqadi.
+                    </div>
+                </div>
+
+                <button class="btn-save-strategy" id="saveStrategyBtn">
+                    <i class="fa-solid fa-bookmark"></i> Strategiyani Saqlash
+                </button>
+            </div>
+
+            <!-- Upload Area at the bottom -->
+            <div class="upload-container" id="dropZone">
+                <input type="file" id="imageInput" accept="image/*" hidden>
+                <div class="upload-content" id="uploadContent">
+                    <div class="upload-icon-wrapper">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                    </div>
+                    <h3>Rasmni bu yerga tashlang yoki tanlang</h3>
+                    <p>Qo'llab-quvvatlanadi: PNG, JPG, WEBP</p>
+                    <button class="btn-primary" onclick="document.getElementById('imageInput').click()">
+                        Rasm Tanlash
+                    </button>
+                </div>
+                
+                <div class="preview-container" id="previewContainer" style="display: none;">
+                    <img id="imagePreview" src="" alt="Chart Preview">
+                    <button class="btn-reset" id="resetBtn" title="O'chirish"><i class="fa-solid fa-times"></i></button>
+                    <div class="preview-overlay">
+                        <span>Tayyor</span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-analyze" id="analyzeBtn" disabled>
+                <i class="fa-solid fa-bolt"></i> Signal Olish
+            </button>
+
+        </main>
+    </div>
+
+
+        </main>
+    </div>
+    
+
+    <div class="settings-panel-fixed">
+        <button class="settings-toggle" id="settingsToggle">
+            <i class="fa-solid fa-key"></i>
+        </button>
+        <div class="settings-content" id="settingsContent">
+            <div class="form-group">
+                <label for="apiKey">OpenAI API Key:</label>
+                <div class="input-wrapper">
+                    <input type="password" id="apiKey" placeholder="sk-...">
+                    <button type="button" class="btn-icon" id="toggleApiKey">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
+                <p class="privacy-note">Brauzerda saqlanadi.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="outcomeModal">
+        <div class="outcome-card">
+            <div class="outcome-icon">
+                <i class="fa-solid fa-circle-question"></i>
+            </div>
+            <h2>Tahlil yakunlandi</h2>
+            <p>Ushbu savdoni qanday natija bilan yopdingiz?</p>
+            <div class="outcome-buttons">
+                <button class="btn-outcome profit" id="btnProfit">
+                    <i class="fa-solid fa-chart-line"></i> Foydada
+                </button>
+                <button class="btn-outcome loss" id="btnLoss">
+                    <i class="fa-solid fa-chart-line fa-flip-vertical"></i> Ziyon bilan
+                </button>
+            </div>
+            <button class="btn-skip" id="btnSkipOutcome">O'tkazib yuborish</button>
+        </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
