@@ -285,7 +285,7 @@ body {
 
 .signal-details {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
     margin: 2rem 0 3rem;
 }
@@ -924,4 +924,96 @@ body {
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
+}
+
+/* Retracement Info Section */
+.retracement-info {
+    margin: 0 0 3rem;
+    animation: fadeInResult 0.8s ease-out;
+}
+
+.retracement-box {
+    background: hsla(217, 91%, 60%, 0.05);
+    border: 1px solid hsla(217, 91%, 60%, 0.1);
+    border-radius: 20px;
+    padding: 1.5rem 2rem;
+    backdrop-filter: blur(12px);
+}
+
+.retracement-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.75rem;
+}
+
+.retracement-header i {
+    font-size: 1.2rem;
+}
+
+.retracement-values {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.retracement-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.retracement-item .label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.retracement-item .value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+}
+
+@keyframes fadeInResult {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+    .retracement-values {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+.result-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn-new-signal {
+    width: 100% !important;
+    padding: 1.25rem !important;
+    font-size: 1.1rem !important;
+    background: linear-gradient(135deg, var(--success), #4ade80) !important;
+    box-shadow: 0 8px 20px -6px var(--success-glow) !important;
+}
+
+.btn-new-signal:hover {
+    box-shadow: 0 12px 24px -6px var(--success-glow) !important;
+}
+
+.btn-save-strategy {
+    margin-top: 0 !important;
 }
